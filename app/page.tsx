@@ -1,58 +1,54 @@
-import { Link } from "@heroui/link";
-import { Snippet } from "@heroui/snippet";
-import { Code } from "@heroui/code";
+"use client";
+import React from "react";
 import { Button } from "@heroui/button";
-import { button as buttonStyles } from "@heroui/theme";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+type FromValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
 
 export default function Home() {
+  const { register, handleSubmit } = useForm<FromValues>();
+
+  const onSubmit: SubmitHandler<FromValues> = (data: any) => {
+    console.log(data);
+    console.log("hello");
+  };
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
-      </div>
+      <Form className="w-full max-w-xs" onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          isRequired
+          label="LastName"
+          labelPlacement="outside"
+          placeholder="last name"
+          {...register("lastName")}
+        />
+        <Input
+          isRequired
+          label="FirstName"
+          labelPlacement="outside"
+          placeholder="last name"
+          {...register("firstName")}
+        />
 
-      <div className="flex gap-3">
-        <Button>Click me</Button>
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
+        <Input
+          isRequired
+          errorMessage="Please enter a valid email"
+          label="Email"
+          labelPlacement="outside"
+          placeholder="Enter your email"
+          type="email"
+          {...register("email")}
+        />
+        <Button type="submit" color="primary" onSubmit={handleSubmit(onSubmit)}>
+          Click Me
+        </Button>
+      </Form>
     </section>
   );
 }
