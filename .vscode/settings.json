@@ -1,3 +1,7 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "editor.formatOnSave": false, // ← Prettier単独を殺す
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // ← ESLint経由で整形する
+  },
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"]
 }
